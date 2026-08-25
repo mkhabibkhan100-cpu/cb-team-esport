@@ -3312,12 +3312,22 @@ E-Commerce Website এবং Custom App আরো বিভিন্ন app ত�
         <div class="field"><label>Nagad Number</label><input type="text" id="ap-nagad" placeholder="01XXXXXXXXX"></div>
         <div class="field"><label>Rocket Number</label><input type="text" id="ap-rocket" placeholder="01XXXXXXXXX"></div>
         <button class="btn-solid" onclick="savePaymentSettings()">Save Payment Numbers</button>
-      </div>
       <div class="panel">
-        <h4><i class="fa-solid fa-gem" style="color:var(--accent);"></i> Diamond Topup Link</h4>
-        <div class="field"><label>Topup Website URL</label><input type="text" id="ap-diamondlink" placeholder="https://..."></div>
-        <button class="btn-solid" onclick="savePaymentSettings()">Save Topup Link</button>
-      </div>
+  <h4><i class="fa-solid fa-trophy" style="color:var(--accent);"></i> Highlights Links</h4>
+  <div class="field">
+    <label>Event Banner URL</label>
+    <input type="text" id="ap-event-banner" placeholder="https://i.ibb.co/..." />
+  </div>
+  <div class="field">
+    <label>YouTube Video Link</label>
+    <input type="text" id="ap-youtube-link" placeholder="https://youtu.be/..." />
+  </div>
+  <div class="field">
+    <label>Winner Banner URL</label>
+    <input type="text" id="ap-winner-banner" placeholder="https://i.ibb.co/..." />
+  </div>
+  <button class="btn-solid" onclick="saveHighlightsLinks()">Save Highlights Links</button>
+	  </div>
     </div>
 
     <!-- Users -->
@@ -5206,6 +5216,48 @@ db.collection('settings').doc('app_banner').onSnapshot((doc) => {
     }
   }
 });
+	db.collection('settings').doc('app').onSnapshot((doc) => {
+  if (doc.exists) {
+    const data = doc.data();
+    
+    // Event Banner
+    if (data.eventBannerUrl) {
+      document.getElementById('topup-banner-img').src = data.eventBannerUrl;
+    }
+    
+    // YouTube Video
+    if (data.youtubeVideoUrl) {
+      let embedUrl = data.youtubeVideoUrl;
+      if (embedUrl.includes('watch?v=')) {
+        embedUrl = embedUrl.replace('watch?v=', 'embed/');
+      } else if (embedUrl.includes('youtu.be/')) {
+        embedUrl = embedUrl.replace('youtu.be/', 'youtube.com/embed/');
+      }
+      document.getElementById('topup-yt-iframe').src = embedUrl;
+    }
+    
+    // Winner Banner
+    if (data.winnerBannerUrl) {
+      document.getElementById('topup-winner-img').src = data.winnerBannerUrl;
+    }
+  }
+});
+	async function saveHighlightsLinks() {
+  const eventBanner = document.getElementById('ap-event-banner')?.value || '';
+  const youtubeLink = document.getElementById('ap-youtube-link')?.value || '';
+  const winnerBanner = document.getElementById('ap-winner-banner')?.value || '';
+
+  try {
+    await db.collection('settings').doc('app').set({
+      eventBannerUrl: eventBanner,
+      youtubeVideoUrl: youtubeLink,
+      winnerBannerUrl: winnerBanner
+    }, { merge: true });
+    alert('Highlights Links Saved Successfully!');
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+	}
 </script>
 
 <div id="websitePopup" class="website-popup" style="display:none;">
