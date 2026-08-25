@@ -4071,11 +4071,15 @@ function renderCategorySections(){
       return `
       <div class="cat-card" onclick="openCategory('${cat.id}')">
         <div class="cat-thumb">
-          ${cat.name.includes('Solo') || cat.name.includes('Wolf 1') ? `<img src="https://i.ibb.co.com/PGzVS9Qx/Screenshot-2026-08-25-17-47-39-80.jpg">` : 
-  cat.name.includes('Duo') || cat.name.includes('Wolf 2') ? `<img src="https://i.ibb.co.com/7xWtbRRN/Screenshot-2026-08-25-17-47-11-85.jpg">` : 
-  cat.name.includes('Squad') ? `<img src="https://i.ibb.co.com/PGjk7W6b/Screenshot-2026-08-25-17-48-38-83.jpg">` : 
-  cat.name.includes('CS') ? `<img src="https://i.ibb.co.com/PGjk7W6b/Screenshot-2026-08-25-17-48-38-83.jpg">` : 
-  `<img src="https://i.ibb.co.com/PGzVS9Qx/Screenshot-2026-08-25-17-47-39-80.jpg">`}
+          ${cat.name.includes('Solo') ? `<img src="https://i.ibb.co.com/tpRQGf6x/Screenshot-2026-08-24-07-51-33-84.jpg">` :
+  cat.name.includes('Duo') ? `<img src="https://i.ibb.co.com/5Wq0hYkM/file-000000009c388207b3b90d464522ae4b.png">` :
+  cat.name.includes('Squad') ? `<img src="https://i.ibb.co.com/Ng9FHS60/file-00000000a15081fd9a427e7dfe3e4d61.png">` :
+  cat.name.includes('CS') ? `<img src="https://i.ibb.co.com/2Y5m7H45/file-000000003bbc81fa80f9ea0e7a44a32d.png">` :
+  cat.name.includes('Pro Esport') || cat.name.includes('Language') ? `<img src="https://i.ibb.co.com/tTL4m9VT/file-000000004b8c81faa34933b98d793fe1.png">` :
+  cat.name.includes('Hedshot') ? `<img src="https://i.ibb.co.com/C5h1HWLg/file-000000002598820b8e1f20743155ee45.png">` :
+  cat.name.includes('1vs1') || cat.name.includes('Custom All') ? `<img src="https://i.ibb.co.com/YBdnsBhb/file-00000000316081fa93b5ae95c2435156.png">` :
+  cat.name.includes('Fist') ? `<img src="https://i.ibb.co.com/rfpQrdNb/file-00000000eb3881f58ab033e076f31f6f.png">` :
+  `<img src="https://i.ibb.co.com/tpRQGf6x/Screenshot-2026-08-24-07-51-33-84.jpg">`}
           <!-- Category Name Removed -->
         </div>
         <div class="cat-info">
