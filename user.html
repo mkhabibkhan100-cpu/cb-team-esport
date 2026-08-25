@@ -4071,7 +4071,10 @@ function renderCategorySections(){
       return `
       <div class="cat-card" onclick="openCategory('${cat.id}')">
         <div class="cat-thumb">
-          ${cat.logoUrl ? `<img src="${cat.logoUrl}">` : `<i class="${cat.icon||'fa-solid fa-shield-halved'}"></i>`}
+          ${c.name.includes('Solo') ? `<img src="https://i.ibb.co.com/PGzVS9Qx/Screenshot-2026-08-25-17-47-39-80.jpg">` :
+  c.name.includes('Duo') || c.name.includes('Wolf 2') ? `<img src="https://i.ibb.co.com/7xWtbRRN/Screenshot-2026-08-25-17-47-11-85.jpg">` :
+  c.name.includes('Squad') ? `<img src="https://i.ibb.co.com/PGjk7W6b/Screenshot-2026-08-25-17-48-38-83.jpg">` :
+  `<img src="https://i.ibb.co.com/PGzVS9Qx/Screenshot-2026-08-25-17-47-39-80.jpg">`}
           <!-- Category Name Removed -->
         </div>
         <div class="cat-info">
