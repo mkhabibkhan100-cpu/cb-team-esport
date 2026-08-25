@@ -3042,18 +3042,29 @@ Powered by  CBTE Sstems
       <div id="mymatches-container"></div>
     </section>
 
-    <!-- TOPUP (redirect only) -->
-    <section class="view" id="view-diamond">
-      <div class="bar-header" style="justify-content:center;"><div class="bar-title"> 💎 Diamond Topup</div></div>
-      <div class="diamond-hero">
-        <div class="dicon"><i class="fa-solid fa-gem"></i></div>
-        <h3>Free Fire Diamond Topup</h3>
-        <p>ডায়মন্ড টপআপ করার জন্য নিচের বাটনে ক্লিক করে অফিসিয়াল টপআপ ওয়েবসাইটে যান। অ্যাডমিন প্যানেল থেকে টপআপ লিঙ্ক সেট করা হলে এখানে তা দেখানো হবে।</p>
-        <button class="btn-link-visit" id="diamond-visit-btn" onclick="visitDiamondLink()"><i class="https://i.ibb.co/m3W3FXM/lv-0-20260806075334.png"></i> Visit Topup Website</button>
-        <div class="diamond-note" id="diamond-note"></div>
-      </div>
-    </section>
+    <!-- HIGHLIGHTS & WINNERS SECTION -->
+<section class="view" id="view-diamond">
+  <div class="bar-header" style="justify-content:center;"><div class="bar-title">🏆 Highlights & Winners</div></div>
+  <div class="diamond-hero" style="text-align: center; padding: 15px;">
+    
+    <!-- Admin Banner Image -->
+    <div id="dynamic-banner-box" style="margin-bottom: 15px;">
+      <img id="topup-banner-img" src="https://i.ibb.co/tpRQGf6x/Screenshot-2026-08-24-07-51-33-84.jpg" style="width: 100%; border-radius: 10px;" alt="Banner">
+    </div>
 
+    <!-- YouTube Video Player -->
+    <div id="youtube-video-box" style="margin-bottom: 15px;">
+      <iframe id="topup-yt-iframe" width="100%" height="200" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen style="border-radius: 10px;"></iframe>
+    </div>
+
+    <!-- Winners Image Section -->
+    <div id="winner-image-box" style="margin-bottom: 15px;">
+      <h4 style="color: #fff; margin-bottom: 8px;">🎉 Recent Winners</h4>
+      <img id="topup-winner-img" src="https://i.ibb.co/tpRQGf6x/Screenshot-2026-08-24-07-51-33-84.jpg" style="width: 100%; border-radius: 10px;" alt="Winners">
+	</div>
+	  
+  </div>
+</section>
     <!-- PROFILE -->
     <section class="view" id="view-profile">
       <div class="bar-header" style="justify-content:center;"><div class="bar-title">Profile</div></div>
@@ -3231,13 +3242,13 @@ E-Commerce Website এবং Custom App আরো বিভিন্ন app ত�
 
   </div>
 
-  <nav class="bottom-nav">
-  <div class="nav-item" data-view="diamond" onclick="showView('diamond')"><i class="fa-solid fa-gem"></i><span>Topup</span></div>
-  <div class="nav-item" data-view="results" onclick="showView('results')"><i class="fa-solid fa-chart-simple"></i><span>Results</span></div>
-  <div class="nav-item active" data-view="play" onclick="showView('play')"><i class="fa-solid fa-gamepad"></i><span>Play</span></div>
-  <div class="nav-item" data-view="mymatches" onclick="showView('mymatches')"><i class="fa-solid fa-trophy"></i><span>My Matches</span></div>
-  <div class="nav-item" data-view="profile" onclick="showView('profile')"><i class="fa-solid fa-user"></i><span>Profile</span></div>
-</nav>
+    <nav class="bottom-nav">
+    <div class="nav-item" data-view="diamond" onclick="showView('diamond')"><i class="fa-solid fa-trophy"></i><span>Highlights</span></div>
+    <div class="nav-item" data-view="results" onclick="showView('results')"><i class="fa-solid fa-square-poll-vertical"></i><span>Results</span></div>
+    <div class="nav-item active" data-view="play" onclick="showView('play')"><i class="fa-solid fa-gamepad"></i><span>Play</span></div>
+    <div class="nav-item" data-view="mymatches" onclick="showView('mymatches')"><i class="fa-solid fa-crosshairs"></i><span>My Matches</span></div>
+    <div class="nav-item" data-view="profile" onclick="showView('profile')"><i class="fa-solid fa-user"></i><span>Profile</span></div>
+	</nav>
 </div>
 
 <!-- ============ ADMIN PANEL ============ -->
