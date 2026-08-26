@@ -4379,20 +4379,33 @@ window.openPrizes = function(matchId) {
     if (!body) return;
 
     if (!m || !m.prizes) {
-        body.innerHTML = '<div class="empty-state"><i class="fa-solid fa-trophy"></i><p>No prize info available.</p></div>';
+        body.innerHTML = `<div class="empty-state"><i class="fa-solid fa-trophy"></i><p>No prize info available.</p></div>`;
     } else {
         body.innerHTML = `
             <div style="padding: 15px; font-size: 14px; line-height: 1.8;">
                 <p>🥇 <strong>1st Place:</strong> ${m.prizes.first || 'N/A'}</p>
                 <p>🥈 <strong>2nd Place:</strong> ${m.prizes.second || 'N/A'}</p>
                 <p>🥉 <strong>3rd Place:</strong> ${m.prizes.third || 'N/A'}</p>
-                <p>🏅 <strong>4th Place:</strong> ${m.prizes.fourth || 'N/A'}</p>
                 <p>🎯 <strong>Per Kill:</strong> ${m.prizes.perKill || m.perKill || 'N/A'}</p>
-            </div>
-        `;
+            </div>`;
     }
-
     openModal('modal-prizes');
+};
+
+window.openNotifications = function(){
+    const body = document.getElementById('notifications-body');
+    if (!body) return;
+    
+    if (!notifications || notifications.length === 0){
+        body.innerHTML = `<div class="empty-state"><i class="fa-solid fa-bell-slash"></i><p>কোনো নোটিফিকেশন নেই</p></div>`;
+    } else {
+        body.innerHTML = notifications.map(n => `
+            <div class="notice-card"><i class="fa-solid fa-volume-high"></i>
+                <div><div class="nt">${n.title}</div><div class="nb">${n.body}</div></div>
+            </div>`).join('');
+    }
+    updateNotifBadge();
+    openModal('modal-notifications');
 };
 
 /* =====================================================================
