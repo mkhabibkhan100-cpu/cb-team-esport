@@ -4412,10 +4412,11 @@ window.openNotifications = function(){
   openModal('modal-notifications');
 };
 window.openRules = function(){
-  document.getElementById('rules-body').innerHTML = `<ul style="padding-left:18px;display:flex;flex-direction:column;gap:12px;">${matchRules.map(r=>`<li style="font-size:13px;color:#ddd;line-height:1.5;">${r}</li>`).join('')}</ul>`;
-  openModal('modal-rules');
+    const body = document.getElementById('rules-body');
+    if (!body) return;
+    body.innerHTML = `<ul style="padding-left:18px;display:flex;flex-direction:column;gap:8px;"><li>১. কোনো প্রকার হ্যাক ব্যবহার করা যাবে না।</li><li>২. নির্দিষ্ট সময়ের মধ্যে রুমে প্রবেশ করতে হবে।</li></ul>`;
+    openModal('modal-rules');
 };
-
 /* =====================================================================
    DIAMOND TOPUP (admin-controlled redirect only)
    ===================================================================== */
@@ -5310,6 +5311,16 @@ db.collection('settings').doc('app_banner').onSnapshot((doc) => {
     <button onclick="goWebsite()">
       Continue to Website →
     </button>
+  </div>
+</div>
+<!-- Rules Modal -->
+<div id="modal-rules" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Rules & Guidelines</h3>
+      <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
+    </div>
+    <div id="rules-body" class="modal-body"></div>
   </div>
 </div>
 
