@@ -4059,30 +4059,38 @@ window.openCategory = function(catId){
    RENDER: BANNER SLIDER (unlimited, admin-controlled, click -> link)
    ===================================================================== */
 function renderBannerSlider(){
-  const track = document.getElementById('banner-track');
-  const dots = document.getElementById('banner-dots');
-  clearInterval(bannerAutoTimer);
-  if(banners.length===0){
-    track.innerHTML = `<div class="banner"><div class="btitle">CB TEAM </div><div class="bsub">অ্যাডমিন প্যানেল থেকে ব্যানার যোগ করা হলে এখানে দেখানো হবে।</div></div>`;
-    dots.innerHTML = '';
-    return;
-  }
-  track.innerHTML = banners.map(b=>`
-    <div class="banner" onclick="openBannerLink('${b.id}')">
-      ${b.imageUrl ? `<img class="bimg" src="${b.imageUrl}">` : ''}
-      <div class="btitle">${b.title||''}</div>
-      <div class="bsub">${b.subtitle||''}</div>
-    </div>`).join('');
-  dots.innerHTML = banners.map((b,i)=>`<span class="${i===0?'active':''}"></span>`).join('');
-  bannerIndex = 0;
-  if(banners.length>1){
-    bannerAutoTimer = setInterval(()=>{
-      bannerIndex = (bannerIndex+1) % banners.length;
-      track.scrollTo({ left: track.clientWidth*bannerIndex, behavior:'smooth' });
-      document.querySelectorAll('#banner-dots span').forEach((d,i)=>d.classList.toggle('active', i===bannerIndex));
-    }, 4000);
-  }
+    const track = document.getElementById('banner-track');
+    const dots = document.getElementById('banner-dots');
+    
+    // Safety check: Element না থাকলে ক্র্যাশ না করে থেমে যাবে
+    if (!track || !dots) return; 
+
+    clearInterval(bannerAutoTimer);
+    if (banners.length === 0){
+        track.innerHTML = '<div class="banner"><div class="btitle">CB TEAM</div><div class="bsub">এডমিন প্যানেল থেকে ব্যানার দিন</div></div>';
+        dots.innerHTML = '';
+        return;
+    }
+
+    track.innerHTML = banners.map(b => `
+        <div class="banner" onclick="openBannerLink('${b.id}')">
+            ${b.imageUrl ? `<img class="bimg" src="${b.imageUrl}" />` : ''}
+            <div class="btitle">${b.title || ''}</div>
+            <div class="bsub">${b.subtitle || ''}</div>
+        </div>`).join('');
+
+    dots.innerHTML = banners.map((b, i) => `<span class="${i===0 ? 'active' : ''}"></span>`).join('');
+    bannerIndex = 0;
+
+    if (banners.length > 1){
+        bannerAutoTimer = setInterval(() => {
+            bannerIndex = (bannerIndex + 1) % banners.length;
+            track.scrollTo({ left: track.clientWidth * bannerIndex, behavior: 'smooth' });
+            document.querySelectorAll('#banner-dots span').forEach((d, i) => d.classList.toggle('active', i === bannerIndex));
+        }, 4000);
+    }
 }
+
 window.openBannerLink = function(bannerId){
   const b = banners.find(x=>x.id===bannerId);
   if(b && b.linkUrl) window.open(b.linkUrl, '_blank');
