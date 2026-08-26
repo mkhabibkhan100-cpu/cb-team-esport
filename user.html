@@ -4312,7 +4312,7 @@ window.confirmSlotBooking = async function(){
       const newDep = (uData.depositBalance||0) - fromDep;
       remaining -= fromDep;
       const newWin = (uData.winningBalance||0) - remaining;
-      if(newWin < 0) throw new Error('Insufficient balance');
+      if(newWin < 0) throwError('Insufficient balance');
       tx.update(userRef, { depositBalance:newDep, winningBalance:newWin });
       tx.update(matchRef, { joined: (mData.joined||0) + 1 });
     });
@@ -4330,32 +4330,46 @@ window.confirmSlotBooking = async function(){
    ROOM / PRIZES MODALS
    ===================================================================== */
 window.openRoom = function(matchId){
-  const m = matches.find(x=>x.id===matchId);
-  const body = document.getElementById('room-body');
-  if(!m){ body.innerHTML = `<div class="room-locked"><i class="fa-solid fa-lock"></i>Room info not available.</div>`; openModal('modal-room'); return; }
-  const hasRoom = !!(m.roomId && m.roomPass);
-  const unlockAt = m.startAt ? m.startAt - 15*60000 : 0;
-  const timeReached = m.startAt ? Date.now() >= unlockAt : false;
-  if(hasRoom && timeReached){
-    body.innerHTML = `
-      <div class="room-box"><div class="rlabel">ROOM ID</div><div class="rval">${m.roomId}</div></div>
-      <div class="room-box"><div class="rlabel">ROOM PASSWORD</div><div class="rval">${m.roomPass}</div></div>
-      <p style="font-size:11.5px;color:var(--sub);text-align:center;">Room ID/Pass কারো সাথে শেয়ার করবেন না। নিয়ম ভঙ্গ করলে kick করা হবে।</p>`;
-  }else{
-    body.innerHTML = `<div class="room-locked"><i class="fa-solid fa-lock"></i>Room ID &amp; Password ম্যাচ শুরুর ১৫ মিনিট আগে অ্যাডমিন প্যানেল থেকে সেট করা হলে এখানে দেখানো হবে।</div>`;
-  }
-  openModal('modal-room');
+    const m = matches.find(x => x.id === matchId);
+    const body = document.getElementById('room-body');
+    if (!body || !m) return;
+
+    const hasRoom = !!(m.roomId && m.roomPass);
+    // ১০ মিনিট আগের হিসাব (10 * 60 * 1000 ms)
+    const unlockAt = m.startAt ? m.startAt - (10 * 60 * 1000) : 0;
+    const timeReached = m.startAt ? Date.now() >= unlockAt : false;
+
+    if(hasRoom && timeReached){
+        body.innerHTML = `
+            <div class="room-box"><div class="rlabel">ROOM ID</div><div class="rval">${m.roomId}</div></div>
+            <div class="room-box"><div class="rlabel">ROOM PASSWORD</div><div class="rval">${m.roomPass}</div></div>
+            <p style="font-size:11.5px;color:var(--sub);text-align:center;">Room ID/Pass অন্য কারো সাথে শেয়ার করবেন না।</p>`;
+    } else {
+        body.innerHTML = `<div class="room-locked"><i class="fa-solid fa-lock"></i> ম্যাচ শুরু হওয়ার ১০ মিনিট আগে রুম আইডি ও পাসওয়ার্ড দেওয়া হবে।</div>`;
+    }
+    openModal('modal-room');
 };
-window.openPrizes = function(matchId){
-  const m = matches.find(x=>x.id===matchId);
-  const body = document.getElementById('prizes-body');
-  if(!m){ body.innerHTML = `<div class="empty-state"><i class="fa-solid fa-trophy"></i><p>No prize info available.</p></div>`; openModal('modal-prizes'); return; }
-  const total = m.prize||0;
-  const distro = [ {rank:"1st",pct:.4,medal:"gold"},{rank:"2nd",pct:.25,medal:"silver"},{rank:"3rd",pct:.15,medal:"bronze"},{rank:"4th",pct:.1,medal:"other"},{rank:"5th",pct:.1,medal:"other"} ];
-  body.innerHTML = distro.map(d=>`
-    <div class="prize-row"><div class="prize-rank"><div class="medal ${d.medal}">${d.rank[0]}</div>${d.rank} Place</div><div class="prize-amt">৳${Math.round(total*d.pct)}</div></div>`).join('')
-    + (m.perKill ? `<div class="prize-row"><div class="prize-rank"><div class="medal other"><i class="fa-solid fa-skull"></i></div>Per Kill</div><div class="prize-amt">৳${m.perKill}</div></div>` : '');
-  openModal('modal-prizes');
+
+window.openPrizes = function(matchId) {
+    const m = matches.find(x => x.id === matchId);
+    const body = document.getElementById('prizes-body');
+    if (!body) return;
+
+    if (!m || !m.prizes) {
+        body.innerHTML = '<div class="empty-state"><i class="fa-solid fa-trophy"></i><p>No prize info available.</p></div>';
+    } else {
+        body.innerHTML = `
+            <div style="padding: 15px; font-size: 14px; line-height: 1.8;">
+                <p>🥇 <strong>1st Place:</strong> ${m.prizes.first || 'N/A'}</p>
+                <p>🥈 <strong>2nd Place:</strong> ${m.prizes.second || 'N/A'}</p>
+                <p>🥉 <strong>3rd Place:</strong> ${m.prizes.third || 'N/A'}</p>
+                <p>🏅 <strong>4th Place:</strong> ${m.prizes.fourth || 'N/A'}</p>
+                <p>🎯 <strong>Per Kill:</strong> ${m.prizes.perKill || m.perKill || 'N/A'}</p>
+            </div>
+        `;
+    }
+
+    openModal('modal-prizes');
 };
 
 /* =====================================================================
