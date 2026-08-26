@@ -4150,12 +4150,12 @@ function matchCardHTML(m){
     </div>
     <div class="prog-row"><span><i class="fa-solid fa-users"></i>Registration</span><span>${joined}/${totalSlots}</span></div>
     <div class="prog-bar"><div class="fill" style="width:${pct}%;"></div></div>
-    <button class="btn-join ${isFull?'full':''}" ${isFull?'disabled':''} onclick="openSlots('${m.id}')"><i class="fa-solid fa-rocket"></i> ${isFull?'Match Full':'Join Now'}</button>
-    <div class="action-row">
-      <button class="action-btn" onclick="openSlots('${m.id}')"><i class="fa-solid fa-users-viewfinder"></i>Slots</button>
-      <button class="action-btn" onclick="openRoom('${m.id}')"><i class="fa-solid fa-door-open"></i>Room</button>
-      <button class="action-btn" onclick="openPrizes('${m.id}')"><i class="fa-solid fa-trophy"></i>Prizes</button>
-    </div>
+    <button class="btn-join ${isFull?'full':''}" ${isFull?'disabled':''} onclick="openSlots('${m.id}')"><i class="fa-solid fa-rocket"></i> ${isFull?'Full':'Join Now'}</button>
+<div class="action-row">
+  <button class="action-btn" onclick="openSlots('${m.id}')"><i class="fa-solid fa-users-viewfinder"></i> Slots</button>
+  <button class="action-btn" onclick="openRoom('${m.id}')"><i class="fa-solid fa-door-open"></i> Room</button>
+  <button class="action-btn" onclick="openPrizes('${m.id}')"><i class="fa-solid fa-trophy"></i> Prizes</button>
+</div>
     <div class="starts-in">Starts in: <span class="t" data-countdown="${m.startAt}">--</span></div>
   </div>`;
 }
@@ -4252,14 +4252,22 @@ function renderMyMatches(){
    SLOT BOOKING (Firestore transaction)
    ===================================================================== */
 window.openSlots = function(matchId){
-  activeSlotMatch = matches.find(m=>m.id===matchId);
-  if(!activeSlotMatch) return;
-  if((activeSlotMatch.joined||0) >= (activeSlotMatch.totalSlots||0)){ toast('This match is full.'); return; }
-  document.getElementById('slots-title').textContent = `Select Slot — #${activeSlotMatch.id}`;
-  selectedSlotNum = null;
-  buildSlotGrid();
-  goSlotStep(1);
-  openModal('modal-slots');
+    activeSlotMatch = matches.find(m => m.id === matchId);
+    if (!activeSlotMatch) return;
+    
+    // ইউজার ফী দিয়ে জয়েন করেছে কি না তা চেক করা হচ্ছে
+    const isJoined = activeSlotMatch.joinedPlayers && activeSlotMatch.joinedPlayers.includes(currentUser.uid);
+    if (!isJoined) {
+        toast('স্লট দেখতে বা সিলেক্ট করতে প্রথমে Entry Fee দিয়ে Join করুন!');
+        return;
+    }
+
+    if((activeSlotMatch.joined||0) >= (activeSlotMatch.totalSlots||0)){ toast('This match is full.'); return; }
+    document.getElementById('slots-title').textContent = `Select Slot - #${activeSlotMatch.id}`;
+    selectedSlotNum = null;
+    buildSlotGrid();
+    goSlotStep(1);
+    openModal('modal-slots');
 };
 function buildSlotGrid(){
   const grid = document.getElementById('slot-grid');
@@ -4335,7 +4343,6 @@ window.openRoom = function(matchId){
     if (!body || !m) return;
 
     const hasRoom = !!(m.roomId && m.roomPass);
-    // ১০ মিনিট আগের হিসাব (10 * 60 * 1000 ms)
     const unlockAt = m.startAt ? m.startAt - (10 * 60 * 1000) : 0;
     const timeReached = m.startAt ? Date.now() >= unlockAt : false;
 
@@ -4349,7 +4356,6 @@ window.openRoom = function(matchId){
     }
     openModal('modal-room');
 };
-
 window.openPrizes = function(matchId) {
     const m = matches.find(x => x.id === matchId);
     const body = document.getElementById('prizes-body');
