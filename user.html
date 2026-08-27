@@ -21,7 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-	/* পপ-আপ এবং ওভারলে পুরোপুরি হাইড করার জন্য */
+	/* পপআপ বন্ধ থাকলে টাচ বা ক্লিক ব্লক না করার জন্য সঠিক CSS */
 .website-popup,
 .modal-overlay:not(.active),
 .modal:not(.active) {
@@ -31,11 +31,18 @@
     z-index: -9999 !important;
 }
 
-/* বাটনগুলোকে সবকিছুর উপরে আনার জন্য */
+/* নিশ্চিতভাবে বাটনে ক্লিক পাওয়ার জন্য */
 .action-btn, .btn-join, button {
     position: relative !important;
     z-index: 9999 !important;
     pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* ম্যাচ কার্ড ও লেআউট ফিক্স */
+.match-card, .card {
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 :root{
