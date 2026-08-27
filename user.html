@@ -21,6 +21,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+	#noticeModalOverlay {
+    display: none !important;
+    pointer-events: none !important;
+}
+
 	/* পপআপ বন্ধ থাকলে টাচ বা ক্লিক ব্লক না করার জন্য সঠিক CSS */
 .website-popup,
 .modal-overlay:not(.active),
@@ -5322,35 +5327,35 @@ db.collection('settings').doc('app_banner').onSnapshot((doc) => {
   }
 	}
 </script>
-
-<div id="websitePopup" class="website-popup" style="display:none;">
-  <div class="popup-box">
-    <div class="popup-icon">
-      <i class="fa-solid fa-circle-info"></i>
+<div id="websitePopup" class="website-popup" style="display:none !important; pointer-events:none !important;">
+    <div class="popup-box" style="pointer-events:auto !important;">
+        <div class="popup-icon">
+            <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <h2>সতর্কতা</h2>
+        <p>
+            আপনি যদি এই রকম Apps বানাতে ইচ্ছুক শুধু সেই ক্ষেত্রেই যোগাযোগ করবেন। 
+            এইখানে অন্য বিষয়ে মেসেজ দিলে ডাইরেক্ট ব্লক করা হবে।
+        </p>
+        <button onclick="goWebsite()">
+            Continue to Website →
+        </button>
     </div>
-    <h2>সতর্কতা</h2>
-    <p>
-      আপনি যদি এই রকম Apps বানাতে ইচ্ছুক শুধু সেই ক্ষেত্রেই যোগাযোগ করবেন। অন্য কোনো ধরনের সাপোর্ট এর জন্য মেসেজ দেবেন না।<br>
-      এইখানে অন্য বিষয়ে মেসেজ দিলে ডাইরেক্ট ব্লক করা হবে।
-    </p>
-    <button onclick="goWebsite()">
-      Continue to Website →
-    </button>
-  </div>
 </div>
+
 <!-- Rules Modal -->
-<div id="modal-rules" class="modal-overlay">
-  <div class="modal">
-    <div class="modal-header">
-      <h3>Rules & Guidelines</h3>
-      <button class="close-btn" onclick="closeModal('modal-rules')">&times;</button>
+<div id="modal-rules" class="modal-overlay" style="display:none !important; pointer-events:none !important;">
+    <div class="modal" style="pointer-events:auto !important;">
+        <div class="modal-header">
+            <h3>Rules & Guidelines</h3>
+            <button class="close-btn" onclick="closeModal('modal-rules')">×</button>
+        </div>
+        <div id="rules-body" class="modal-body"></div>
     </div>
-    <div id="rules-body" class="modal-body"></div>
-  </div>
 </div>
 
-<div id="floatingSupportBtn" class="floating-support-btn" onclick="openSupportLink()" style="display:none; bottom: 140px !important; right: 10px !important; width: 35px !important; height: 35px !important; font-size: 15px !important;">
-  <i class="fa-solid fa-comment-dots"></i>
+<div id="floatingSupportBtn" class="floating-support-btn" onclick="openDeveloperProfile()">
+    <i class="fa-solid fa-comment-dots"></i>
 </div>
 
 </body>
