@@ -5127,36 +5127,38 @@ window.addEventListener('click', function(e){
 // ========================================================
 // WELCOME NOTICE POPUP LOGIC (GUARANTEED SAFE VERSION)
 // ========================================================
+// Global Scope declaration so showWelcomeNotice can access them
+let noticeModalOverlay, noticeContentBody, noticeAcceptBtn, scrollHint, noticeTitle, noticeText, noticeBodyImg, noticeHeaderImg;
 
-const noticeModalOverlay = document.getElementById('noticeModalOverlay');
-const noticeContentBody = document.getElementById('noticeContentBody');
-const noticeAcceptBtn = document.getElementById('noticeAcceptBtn');
-const scrollHint = document.getElementById('scrollHint');
-const noticeTitle = document.getElementById('noticeTitle');
-const noticeText = document.getElementById('noticeText');
-const noticeBodyImg = document.getElementById('noticeBodyImg');
-const noticeHeaderImg = document.getElementById('noticeHeaderImg');
+document.addEventListener('DOMContentLoaded', () => {
+    noticeModalOverlay = document.getElementById('noticeModalOverlay');
+    noticeContentBody = document.getElementById('noticeContentBody');
+    noticeAcceptBtn = document.getElementById('noticeAcceptBtn');
+    scrollHint = document.getElementById('scrollHint');
+    noticeTitle = document.getElementById('noticeTitle');
+    noticeText = document.getElementById('noticeText');
+    noticeBodyImg = document.getElementById('noticeBodyImg');
+    noticeHeaderImg = document.getElementById('noticeHeaderImg');
 
-let currentNoticeLink = null;
-let currentNoticeVersion = "1.0";
+    if (noticeAcceptBtn) {
+        noticeAcceptBtn.disabled = false;
+        noticeAcceptBtn.style.pointerEvents = 'auto';
+    }
 
-// স্ক্রল চেক করার ফাংশন (একদম নিচে নামলে বাটন এনেবল হবে)
-function checkScrollPosition() {
-  const scrollTop = noticeContentBody.scrollTop;
-  const scrollHeight = noticeContentBody.scrollHeight;
-  const clientHeight = noticeContentBody.clientHeight;
+    if (noticeContentBody && noticeAcceptBtn) {
+        noticeContentBody.addEventListener('scroll', () => {
+            const scrollTop = noticeContentBody.scrollTop;
+            const scrollHeight = noticeContentBody.scrollHeight;
+            const clientHeight = noticeContentBody.clientHeight;
 
-  if (scrollTop + clientHeight >= scrollHeight - 10) {
-    noticeAcceptBtn.disabled = false;
-    noticeAcceptBtn.classList.add('enabled');
-    noticeAcceptBtn.innerText = "ACCEPT & PROCEED";
-    scrollHint.style.display = 'none';
-  }
-}
-
-if (noticeContentBody) {
-  noticeContentBody.addEventListener('scroll', checkScrollPosition);
-}
+            if (scrollTop + clientHeight >= scrollHeight - 20) {
+                noticeAcceptBtn.disabled = false;
+                noticeAcceptBtn.classList.add('enabled');
+                if (scrollHint) scrollHint.style.display = 'none';
+            }
+        });
+    }
+});
 
 // পপআপ দেখানোর ফাংশন
 function showWelcomeNotice(data) {
@@ -5175,19 +5177,14 @@ function showWelcomeNotice(data) {
   currentNoticeVersion = data.version || "1.0";
 
   // যদি টেক্সট ছোট হয় এবং স্ক্রল করার প্রয়োজন না পড়ে, তবে সাথে সাথে বাটন এনেবল হয়ে যাবে
-  setTimeout(() => {
-    if (noticeContentBody.scrollHeight <= noticeContentBody.clientHeight + 10) {
-      noticeAcceptBtn.disabled = false;
-      noticeAcceptBtn.classList.add('enabled');
-      noticeAcceptBtn.innerText = "ACCEPT & PROCEED";
-      scrollHint.style.display = 'none';
-    } else {
-      noticeAcceptBtn.disabled = true;
-      noticeAcceptBtn.classList.remove('enabled');
-      noticeAcceptBtn.innerText = "READ ALL TO CONTINUE";
-      scrollHint.style.display = 'flex';
-    }
-  }, 200);
+  if (noticeAcceptBtn) {
+    noticeAcceptBtn.disabled = false;
+    noticeAcceptBtn.classList.add('enabled');
+    noticeAcceptBtn.innerText = "ACCEPT & PROCEED";
+}
+if (scrollHint) {
+    scrollHint.style.display = 'none';
+}
 
   noticeModalOverlay.classList.add('active');
 }
