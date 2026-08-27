@@ -5118,12 +5118,12 @@ function openWebsitePopup() {
 function goWebsite() {
     window.open("https://t.me/cbteamesport", "_blank");
 }
-
-window.onclick = function(e){
+window.addEventListener('click', function(e){
     if(e.target.id=="websitePopup"){
         document.getElementById("websitePopup").style.display="none";
     }
-}
+});
+
 // ========================================================
 // WELCOME NOTICE POPUP LOGIC (GUARANTEED SAFE VERSION)
 // ========================================================
